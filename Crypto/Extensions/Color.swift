@@ -13,9 +13,9 @@ extension Color {
 }
 
 struct ColorTheme {
-    let accent = Color("AccentColor")
-    let background  = Color("BackgroundColor")
-    let negative = Color("NegativeColor")
-    let positive = Color("PositiveColor")
+    let accent =        Color("AccentColor")
+    let background  =   Color("BackgroundColor")
+    let negative =      Color("NegativeColor")
+    let positive =      Color("PositiveColor")
     let secondaryText = Color("SecondaryTextColor")
 }

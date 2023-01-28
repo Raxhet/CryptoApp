@@ -27,12 +27,20 @@ struct CoinRowView: View {
 
 struct CoinRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CoinRowView(coin: dev.coin, showHoldingColumn: true)
-            //.preferredColorScheme(.dark)
+        Group {
+            CoinRowView(coin: dev.coin, showHoldingColumn: true)
+                .previewLayout(.sizeThatFits)
+            
+            CoinRowView(coin: dev.coin, showHoldingColumn: true)
+                .preferredColorScheme(.dark)
+                .previewLayout(.sizeThatFits)
+        }
+        
     }
 }
 
 extension CoinRowView {
+    
     private var leftColumn: some View {
         HStack(spacing: 0) {
             Text("\(coin.rank)")
