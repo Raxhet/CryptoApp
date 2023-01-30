@@ -50,7 +50,7 @@ class DeveloperPreview {
         atl: 67.81,
         atlChangePercentage: 33803.50128,
         priceChangePercentage24HInCurrency: 0.007988471520749073,
-        currentHoldings: 1.5,
+        currentHoldings: 2.5,
         sparklineIn7D: SparklineIn7D(price: [
             22615.674556712373,
             22660.11660938527,

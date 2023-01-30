@@ -42,7 +42,7 @@ extension HomeView {
     private var homeHeader: some View {
         HStack {
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
-                .animation(.none)
+                .animation(.none, value: showPortfolio) // added value
                 .background(
                     CircleButtonAnimationView(animate: $showPortfolio)
                 )
