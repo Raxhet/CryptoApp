@@ -12,6 +12,9 @@ struct HomeView: View {
             
             VStack {
                 homeHeader
+                    .padding(.vertical, -20)
+                
+                SearchBarView(searchText: $vm.searchText)
                 
                 columnTitles
                 
