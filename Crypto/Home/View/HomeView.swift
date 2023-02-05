@@ -4,15 +4,21 @@ struct HomeView: View {
     
     @EnvironmentObject private var vm: HomeViewModel
     @State private var showPortfolio = false
+    @State private var showPortfolioView = false
     
     var body: some View {
         ZStack {
             Color.theme.background
                 .ignoresSafeArea()
+                .sheet(isPresented: $showPortfolioView, content: {
+                    PortfolioView()
+                        .environmentObject(vm)
+                })
             
             VStack {
                 homeHeader
-                    .padding(.vertical, -20)
+                
+                HomeStatsView(showPortfolio: $showPortfolio)
                 
                 SearchBarView(searchText: $vm.searchText)
                 
@@ -22,6 +28,7 @@ struct HomeView: View {
                     allCoinsList
                         .transition(.move(edge: .leading))
                 }
+                
                 if showPortfolio {
                     portfolioCoinsList
                         .transition(.move(edge: .trailing))
@@ -46,6 +53,11 @@ extension HomeView {
         HStack {
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
                 .animation(.none, value: showPortfolio) // added value
+                .onTapGesture {
+                    if showPortfolio {
+                        showPortfolioView.toggle()
+                    }
+                }
                 .background(
                     CircleButtonAnimationView(animate: $showPortfolio)
                 )
@@ -74,7 +86,10 @@ extension HomeView {
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
+//        .refreshable {
+//            print("refresh")
+//        }
     }
     
     private var portfolioCoinsList: some View {
