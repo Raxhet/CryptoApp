@@ -14,6 +14,8 @@ struct PortfolioView: View {
     @State private var quantityText = ""
     @State private var showCheckmarkView = false
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ZStack {
             NavigationView {
@@ -31,7 +33,7 @@ struct PortfolioView: View {
                 .navigationTitle("Edit Portfolio")
                 .toolbar (content: {
                     ToolbarItem (placement: .navigationBarLeading, content: {
-                        XMarkButton()
+                        XMarkButton
                     })
                     
                     ToolbarItem (placement: .navigationBarTrailing, content: {
@@ -67,7 +69,7 @@ extension PortfolioView {
                     CoinLogoView(coin: coin)
                         .onTapGesture {
                             withAnimation(.easeIn) {
-                                selectedCoin = coin
+                                updateSelectedCoin(coin: coin)
                             }
                         }
                         .overlay (
@@ -79,6 +81,16 @@ extension PortfolioView {
             }
             .padding(5)
         })
+    }
+    
+    private var XMarkButton: some View {
+        //@Environment(\.dismiss) var dismiss
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+        }
+
     }
     
     private var portfolioInputSection: some View {
@@ -118,8 +130,22 @@ extension PortfolioView {
         .opacity(selectedCoin != nil && selectedCoin?.currentHoldings != Double(quantityText) ? 1.0 : 0.0)
     }
     
+    private func updateSelectedCoin(coin: CoinModel) {
+        selectedCoin = coin
+        if let portfolioCoins = vm.portfolioCoins.first(where: {$0.id == coin.id}),
+           let amount = portfolioCoins.currentHoldings {
+            quantityText = "\(amount)"
+        } else {
+            quantityText = ""
+        }
+    }
+    
     private func saveButton() {
-        guard selectedCoin != nil else { return }
+        guard let coin = selectedCoin,
+              let amount = Double(quantityText)
+              else { return }
+        
+        vm.updatePortfolio(coin: coin, amount: amount)
         
         withAnimation(.easeIn) {
             showCheckmarkView = true
